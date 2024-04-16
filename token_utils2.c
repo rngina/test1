@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:30:14 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/16 15:29:34 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/16 15:56:00 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	is_special(char c)
 	return (c == '\'' || c == '\"' || c == '<' || c == '>' || c == '|');
 }
 
-int	ft_isspace(int c)
+int	is_space(int c)
 {
 	c = (unsigned char)c;
 	if (c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r'
@@ -53,7 +53,7 @@ int	ft_isspace(int c)
 	return (0);
 }
 
-char	*count_special(char c, char *s)
+char	*count_special(char *s)
 {
 	if (*s == '\'')
 		s = ft_strchr(s + 1, '\'');
@@ -72,7 +72,7 @@ char	*count_special(char c, char *s)
 	return (s);
 }
 
-int	ft_count_words(char *s, char c)
+int	ft_count_words(char *s)
 {
 	int	words;
 	int	flag;
@@ -81,16 +81,16 @@ int	ft_count_words(char *s, char c)
 	flag = 0;
 	while (*s)
 	{
-		if (*s != c && flag == 0 && !is_special(*s))
+		if (!is_space(*s) && flag == 0 && !is_special(*s))
 		{
 			flag = 1;
 			words++;
 		}
-		if (*s == c || is_special(*s))
+		if (is_space(*s) || is_special(*s))
 			flag = 0;
 		if (is_special(*s))
 		{
-			s = count_special(*s, s);
+			s = count_special(s);
 			words++;
 		}
 		s++;

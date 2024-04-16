@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 13:23:44 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/16 16:54:48 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/16 18:32:32 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,17 @@ char	*count_special(char *s);
 int		ft_count_words(char *s);
 int		is_space(int c);
 int		count_quotes(char *s);
+char	**split_quotes(char *s, int *i, char **res);
+char	**split_red(char *s, int *i, char **res);
+char	**split_pipe(char *s, int *i, char **res);
+char	**split_process(char *s, char **res);
+char	**ft_split(char *s);
+char	**get_tokens(char *user_input);
+
+
+//strings
+char	*ft_strdup(char *src);
+
 
 
 
