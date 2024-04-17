@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 18:30:52 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/16 18:32:13 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:45:39 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,41 @@ char	**duplicate_env(char **env)
 	return (dup_env);
 }
 
-int	main(int argc, char **argv, char **envp)
+t_list	*input(char *user_input, char **env_copy)
+{
+	char	**tokens;
+	t_list	*list;
+
+	list = NULL;
+	tokens = get_tokens(user_input);
+	if (tokens)
+	{
+		while (*tokens)
+		{
+			printf("%s\n", *tokens);
+			tokens++;
+		}
+	}
+	//list = parse(tokens, user_input, env);
+	return(list);
+}
+
+int	main(int argc, char **argv, char **env)
 {
 	char	*user_input;
-	t_list	*envp_copy;
-	char	**tokens;
+	char	**env_copy;
 	int		exit_status;
 
 	exit_status = 0;
 	while (true)
 	{
+		env_copy = duplicate_env(env);
 		user_input = readline("minishell:~$ ");
 		add_history(user_input);
-		tokens = get_tokens(user_input);
-		if (tokens)
-		{
-			while (*tokens)
-			{
-				printf("%s\n", *tokens);
-				tokens++;
-			}
-		}
+		input(user_input, env_copy);
 		//exec();
 	}
 	free(user_input);
+	//free env_copy
 	rl_clear_history();
 }

@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 13:23:44 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/16 18:32:32 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/17 17:15:23 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef enum e_builtins {
 	EXIT
 }	t_builtins;
 
-
 typedef struct s_inf
 {
 	char			flag; // 'h' 'c'
@@ -54,7 +53,7 @@ typedef struct s_outf
 typedef struct s_list
 {
 	int				list_id;
-	char			*cmd;
+	//char			*cmd;
 	char			**argv;
 	char			**env;
 	t_inf			*inf;
@@ -83,6 +82,18 @@ char	**get_tokens(char *user_input);
 
 //strings
 char	*ft_strdup(char *src);
+
+//init structs
+t_list	*init_list(char **env_copy);
+t_list	*ft_lstlast(t_list *lst);
+void	add_last_list(t_list **head, t_list *last);
+t_inf	*init_inf(void);
+t_inf	*ft_lstinf(t_inf *inf);
+void	add_last_inf(t_inf **head, t_inf *inf);
+t_outf	*init_outf(void);
+t_outf	*ft_lstoutf(t_outf *outf);
+void	add_last_outf(t_outf **head, t_outf *outf);
+
 
 
 
