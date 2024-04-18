@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:54:27 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/16 18:14:41 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/18 17:37:23 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,26 @@ char	**split_pipe(char *s, int *i, char **res)
 	return (res);
 }
 
+char	**split_exp(char *s, int *i, char **res)
+{
+	*res++ = ft_substr(s, *i, 1);
+	*i = *i + 1;
+	return (res);
+}
+
+char	**split_special(char *s, int *i, char **res)
+{
+	if (s[*i] == '\'' || s[*i] == '\"')
+		res = split_quotes(s, i, res);
+	else if (s[*i] == '>' || s[*i] == '<')
+		res = split_red(s, i, res);
+	else if (s[*i] == '|')
+		res = split_pipe(s, i, res);
+	else if (s[*i] == '$')
+		res = split_exp(s, i, res);
+	return (res);
+}
+
 char	**split_process(char *s, char **res)
 {
 	int		i;
@@ -107,12 +127,16 @@ char	**split_process(char *s, char **res)
 	{
 		while (is_space(s[i]))
 			i++;
-		if (s[i] == '\'' || s[i] == '\"')
-			res = split_quotes(s, &i, res);
-		else if (s[i] == '>' || s[i] == '<')
-			res = split_red(s, &i, res);
-		else if (s[i] == '|')
-			res = split_pipe(s, &i, res);
+		if (is_special(s[i]))
+			res = split_special(s, &i, res);
+		// if (s[i] == '\'' || s[i] == '\"')
+		// 	res = split_quotes(s, &i, res);
+		// else if (s[i] == '>' || s[i] == '<')
+		// 	res = split_red(s, &i, res);
+		// else if (s[i] == '|')
+		// 	res = split_pipe(s, &i, res);
+		// else if (s[i] == '$')
+		// 	res = split_exp(s, &i, res);
 		else if (!is_space(s[i]))
 		{
 			start = (int)i;

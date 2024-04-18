@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:34:46 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/17 16:13:32 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:41:59 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ void	add_last_inf(t_inf **head, t_inf *inf)
 		*head = inf;
 		return ;
 	}
-	node = ft_lstlast(*head);
+	node = ft_lstinf(*head);
 	node->next = inf;
 }

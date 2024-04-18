@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 16:11:06 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/17 16:13:27 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:41:43 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ void	add_last_outf(t_outf **head, t_outf *outf)
 		*head = outf;
 		return ;
 	}
-	node = ft_lstlast(*head);
+	node = ft_lstoutf(*head);
 	node->next = outf;
 }

@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:30:14 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/16 15:56:00 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/18 18:01:11 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ char	*ft_substr(char *s, int start, int len)
 
 int	is_special(char c)
 {
-	return (c == '\'' || c == '\"' || c == '<' || c == '>' || c == '|');
+	return (c == '\'' || c == '\"' || c == '<' || c == '>' \
+			|| c == '$' || c == '|');
 }
 
 int	is_space(int c)
@@ -69,6 +70,8 @@ char	*count_special(char *s)
 		if (*(s + 1) == '<')
 			s = s + 1;
 	}
+	else if (*s == '$')
+		;
 	return (s);
 }
 

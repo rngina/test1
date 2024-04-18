@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 18:30:52 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/17 14:45:39 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:05:23 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ int	main(int argc, char **argv, char **env)
 	char	**env_copy;
 	int		exit_status;
 
+	env_copy = duplicate_env(env);
 	exit_status = 0;
 	while (true)
 	{
-		env_copy = duplicate_env(env);
 		user_input = readline("minishell:~$ ");
 		add_history(user_input);
 		input(user_input, env_copy);
-		//exec();
+		//exec(&env_copy);
 	}
 	free(user_input);
 	//free env_copy
