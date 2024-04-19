@@ -6,21 +6,21 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 16:11:06 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/18 15:41:43 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/19 15:21:40 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_outf	*init_outf(void)
+t_outf	*init_outf(char	*file, char flag)
 {
 	t_outf	*outf;
 
 	outf = malloc(sizeof(t_outf));
 	if (!outf)
 		return (NULL);
-	outf->flag = '\0';
-	outf->file = NULL;
+	outf->flag = flag;
+	outf->file = file;
 	outf->next = NULL;
 	return (outf);
 }

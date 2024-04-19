@@ -6,11 +6,24 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 18:30:52 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/18 15:05:23 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/19 15:15:59 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_inf(t_list *list)
+{
+	t_inf	*inf;
+
+	inf = list->inf;
+	while (inf)
+	{
+		printf("|%s %c|", inf->file, inf->flag);
+		inf = inf->next;
+	}
+	printf("\n");
+}
 
 char	**duplicate_env(char **env)
 {
@@ -41,15 +54,17 @@ t_list	*input(char *user_input, char **env_copy)
 
 	list = NULL;
 	tokens = get_tokens(user_input);
-	if (tokens)
-	{
-		while (*tokens)
-		{
-			printf("%s\n", *tokens);
-			tokens++;
-		}
-	}
-	//list = parse(tokens, user_input, env);
+	// if (tokens)
+	// {
+	// 	while (*tokens)
+	// 	{
+	// 		printf("%s\n", *tokens);
+	// 		tokens++;
+	// 	}
+	// }
+	printf("im in input\n");
+	list = parse(user_input, tokens, env_copy);
+	printf("in input after parse() call\n");
 	return(list);
 }
 
@@ -57,6 +72,7 @@ int	main(int argc, char **argv, char **env)
 {
 	char	*user_input;
 	char	**env_copy;
+	t_list	*list;
 	int		exit_status;
 
 	env_copy = duplicate_env(env);
@@ -65,7 +81,10 @@ int	main(int argc, char **argv, char **env)
 	{
 		user_input = readline("minishell:~$ ");
 		add_history(user_input);
-		input(user_input, env_copy);
+		list = input(user_input, env_copy);
+		printf("back to while loop\n");
+		print_inf(list);
+		printf("after expected print\n");
 		//exec(&env_copy);
 	}
 	free(user_input);

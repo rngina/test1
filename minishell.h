@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 13:23:44 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/17 17:15:23 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:41:09 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,32 @@ char	**get_tokens(char *user_input);
 
 //strings
 char	*ft_strdup(char *src);
+int		ft_strcmp(char *s1, char *s2);
+
 
 //init structs
 t_list	*init_list(char **env_copy);
 t_list	*ft_lstlast(t_list *lst);
 void	add_last_list(t_list **head, t_list *last);
-t_inf	*init_inf(void);
+t_inf	*init_inf(char	*file, char flag);
 t_inf	*ft_lstinf(t_inf *inf);
 void	add_last_inf(t_inf **head, t_inf *inf);
-t_outf	*init_outf(void);
+t_outf	*init_outf(char	*file, char flag);
 t_outf	*ft_lstoutf(t_outf *outf);
 void	add_last_outf(t_outf **head, t_outf *outf);
+
+//token expansions
+t_list	*parse(char *user_input, char **tokens, char **env_copy);
+void	parse_string(t_list **list, char *user_input, char ***tokens);
+void	parse_no_q();
+void	parse_exp(t_list **list, char **tokens, \
+				char *user_input, char **env);
+t_list	*parse_pipe(t_list **list, char **tokens, char **env);
+void	parse_red(char **tokens, t_list **list);
+void	add_next_outf(t_list **list, char *file, char *flag);
+void	add_next_inf(t_list **list, char *file, char *flag);
+int		is_special_str(char *str);
+
 
 
 
