@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 18:30:52 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/19 15:15:59 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:35:51 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,19 @@ void	print_inf(t_list *list)
 	{
 		printf("|%s %c|", inf->file, inf->flag);
 		inf = inf->next;
+	}
+	printf("\n");
+}
+
+void	print_outf(t_list *list)
+{
+	t_outf	*outf;
+
+	outf = list->outf;
+	while (outf)
+	{
+		printf("|%s %c|", outf->file, outf->flag);
+		outf = outf->next;
 	}
 	printf("\n");
 }
@@ -84,8 +97,9 @@ int	main(int argc, char **argv, char **env)
 		list = input(user_input, env_copy);
 		printf("back to while loop\n");
 		print_inf(list);
+		print_outf(list);
 		printf("after expected print\n");
-		//exec(&env_copy);
+		//exit_status = exec(&env_copy);
 	}
 	free(user_input);
 	//free env_copy

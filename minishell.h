@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 13:23:44 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/19 14:41:09 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/22 13:06:16 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef enum e_builtins {
 
 typedef struct s_inf
 {
-	char			flag; // 'h' 'c'
+	char			flag; // 'h' 'c' 
 	char			*file;
 	struct s_inf	*next;
 }	t_inf;
@@ -83,6 +83,8 @@ char	**get_tokens(char *user_input);
 //strings
 char	*ft_strdup(char *src);
 int		ft_strcmp(char *s1, char *s2);
+char	*ft_strnstr(char *big, char *little, int len);
+int		ft_strncmp(char *s1, char *s2, int n);
 
 
 //init structs

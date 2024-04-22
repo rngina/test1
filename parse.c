@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 18:57:12 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/19 15:20:43 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:11:32 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_strcmp(char *s1, char *s2)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while ((s1[i] || s2[i]))
@@ -121,7 +121,7 @@ void	parse_exp(t_list **list, char **tokens, \
 }
 
 
-void	parse_no_q()
+char	*parse_no_q()
 {
 	//check if next is ' or " or $
 	//if yes check for space 
@@ -129,16 +129,71 @@ void	parse_no_q()
 	//return as it is?
 }
 
-void	parse_string(t_list **list, char *user_input, char ***tokens)
+char	*parse_double()
 {
-	//parse_double()
-	//parse_single()
-	//parse_no_q()
+	//remove quotes
+	//-assign new memory
+	//-substr from 1 to len - 1
+	//free old one
+	//check for $ sign
+	//if yes expand 
+	return ;
+}
 
+int	is_next_string_space(char *token, char *user_input)
+{
+	char	*ptr;
+	char	ch;
+
+	ptr = ft_strnstr(user_input, token, ft_strlen(token));
+	ch = *(ptr + ft_strlen(token));
+	if (is_space(ch))
+		return(1);
+	return (0);
+}
+
+char	*return_string(t_list **list, char *user_input, char ***tokens)
+{
+	char	*token;
+	char	*next;
+	char	*ptr;
+
+	next = NULL;
+	token = NULL;
+	if (*user_input == '\"')
+		token = parse_double();
+	else if (*user_input == '\'')
+		token = parse_single();
+	else
+		token = parse_no_q();
+	if ((*tokens + 1) && !is_special_str(*(*tokens + 1)))
+	{
+		next = return_string(list, user_input, &(*tokens + 1));
+		ptr = ft_strnstr(user_input, next, ft_strlen(next));
+		if (is_space(*(ptr + ft_strlen(*(*tokens + 1)))))
+		{
+			next = return_string(list, user_input, tokens);
+			(*tokens)++;
+			
+			//increment tokens
+			//concatenate with token
+		}
+	}
 	//check if it has space in user input
 	//if not and if next token is string -> concatenate with next
 
 	//check $ sign
+	return (token);
+}
+
+void	parse_string(t_list **list, char *user_input, char ***tokens)
+{
+	//TODO
+	// char	*str;
+
+	// str = return_string(list, user_input, tokens);
+	// if (str)
+	// 	argv_add((*list)->argv, str); //TODO
 }
 
 t_list	*parse(char *user_input, char **tokens, char **env_copy)
@@ -160,6 +215,7 @@ t_list	*parse(char *user_input, char **tokens, char **env_copy)
 			}
 		if (!ft_strcmp(*tokens, "|"))
 			current = parse_pipe(&current, tokens + 1, env_copy);
+		//make all function return value for outputting errors
 		if (!ft_strcmp(*tokens, "$"))
 			parse_exp(&current, tokens, user_input, env_copy);
 		else 
