@@ -6,7 +6,7 @@
 #    By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/28 13:49:25 by rtavabil          #+#    #+#              #
-#    Updated: 2024/04/19 14:42:07 by rtavabil         ###   ########.fr        #
+#    Updated: 2024/04/23 16:42:14 by rtavabil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRC := tokens.c token_utils.c token_utils2.c \
 	   parse.c
 OBJ := $(SRC:%.c=%.o)
 
-CC := cc
+CC := cc -g
 #CFLAGS := -Wall -Wextra -Werror 
 
 OBJ_PATH := obj/

@@ -63,8 +63,8 @@ int	is_next_string_space(char *token, char *user_input)
 	char	*ch;
 
 	ch = "\0";
-	ptr = ft_strnstr(user_input, token, ft_strlen(token));
-	printf("pointer is at %s   token len is %d\n", ptr, ft_strlen(token));
+	ptr = ft_strnstr(user_input, token, ft_strlen(user_input));
+	printf("pointer is at %s   token len is %d\n", ptr, ft_strlen(user_input));
 	if (ptr)
 		ch = ptr + ft_strlen(token);
 	if (is_space(*ch))
@@ -74,8 +74,8 @@ int	is_next_string_space(char *token, char *user_input)
 
 int	main()
 {
-	char	*str = {"echo \"hello\"'PATH'"};
-	char	*token = {"\"hello\""};
+	char	*str = {"echo \"hello\" 'PATH'"};
+	char	*token = {"\'PATH\'"};
 
 	printf("user input is %s\ntoken is %s\nis there space after token\n1-yes   0-no\n%d\n", str, token, is_next_string_space(token, str));
 }

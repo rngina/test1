@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 13:23:44 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/22 13:06:16 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:21:36 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_outf
 typedef struct s_list
 {
 	int				list_id;
-	//char			*cmd;
+	char			*cmd;
 	char			**argv;
 	char			**env;
 	t_inf			*inf;
@@ -84,7 +84,8 @@ char	**get_tokens(char *user_input);
 char	*ft_strdup(char *src);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_strnstr(char *big, char *little, int len);
-int		ft_strncmp(char *s1, char *s2, int n);
+int		ft_strncmp(char *s1, char *s2, int n);\
+int		ft_strlcpy(char *dst, char *src, int size);
 
 
 //init structs
@@ -101,7 +102,7 @@ void	add_last_outf(t_outf **head, t_outf *outf);
 //token expansions
 t_list	*parse(char *user_input, char **tokens, char **env_copy);
 void	parse_string(t_list **list, char *user_input, char ***tokens);
-void	parse_no_q();
+char	*parse_no_q();
 void	parse_exp(t_list **list, char **tokens, \
 				char *user_input, char **env);
 t_list	*parse_pipe(t_list **list, char **tokens, char **env);

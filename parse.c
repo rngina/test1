@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 18:57:12 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/22 17:11:32 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:51:25 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ void	parse_exp(t_list **list, char **tokens, \
 	//if not concatenate with next 
 	//if next is ''
 	//expand /0 /a /b /t /n /v /f /r
+	return ;
 }
 
 
@@ -127,9 +128,79 @@ char	*parse_no_q()
 	//if yes check for space 
 	//if no space concatenate
 	//return as it is?
+	return (NULL);
 }
 
-char	*parse_double()
+int	is_alphanum(char c)
+{
+	if (((c >= 48) && (c <= 57)) || ((c >=97 && c <= 122)) \
+		|| (c == 45) || ((c >= 65) && (c <= 90)))
+		return (1);
+	return (0);
+}
+
+char	*parse_double(char *token, char **env)
+{
+	int		i;
+	int		start;
+	char	*parsed;
+	char	*env_char;
+	int		len;
+	char	*env_var;
+
+	start = -1;
+	env_char = NULL;
+	env_var = NULL;
+	if (ft_strchrin(token, '$') != -1)
+	{
+		printf("entered parse_double() if\n");
+		start = ft_strchrin(token, '$') + 1;
+		i = start + 1;
+		while (token[i])
+		{
+			if (!is_alphanum(token[i]))
+				break;
+			i++;
+		}
+		if (i - start > 1)
+		{
+			printf("entered parse_double() if() if()\n");
+			env_char = ft_substr(token, start, i - start);
+			printf("env_char is %s\n", env_char);
+		}
+
+	}
+	// if (env_char)
+	// {
+	// 	len = ft_strlen(token) - 3 + ft_strlen(env_char);
+	// 	parsed = (char *)malloc((len + 1) * sizeof(char));
+	// 	if (!parsed)
+	// 		return (NULL);
+	// 	env_var = 
+	// }
+	len = ft_strlen(token - 2);
+	if (env_char)
+		len += ft_strlen(env_char);
+	parsed = (char *)malloc((len + 1) * sizeof(char));
+	if (!parsed)
+		return (NULL);
+	ft_strlcpy(parsed, token + 1, ft_strlen(token) - 1);
+	if (env_char)
+	{
+		ft_strlcpy(token + ft_strlen(token) - 2, env_char, ft_strlen(env_char) + 1);
+		free(env_char);
+	}
+	
+	//remove quotes
+	//-assign new memory
+	//-substr from 1 to len - 1
+	//free old one
+	//check for $ sign
+	//if yes expand 
+	return (parsed);
+}
+
+char	*parse_single()
 {
 	//remove quotes
 	//-assign new memory
@@ -137,7 +208,7 @@ char	*parse_double()
 	//free old one
 	//check for $ sign
 	//if yes expand 
-	return ;
+	return (NULL);
 }
 
 int	is_next_string_space(char *token, char *user_input)
@@ -145,7 +216,7 @@ int	is_next_string_space(char *token, char *user_input)
 	char	*ptr;
 	char	ch;
 
-	ptr = ft_strnstr(user_input, token, ft_strlen(token));
+	ptr = ft_strnstr(user_input, token, ft_strlen(user_input));
 	ch = *(ptr + ft_strlen(token));
 	if (is_space(ch))
 		return(1);
@@ -155,45 +226,49 @@ int	is_next_string_space(char *token, char *user_input)
 char	*return_string(t_list **list, char *user_input, char ***tokens)
 {
 	char	*token;
-	char	*next;
-	char	*ptr;
+	char	**temp;
 
-	next = NULL;
+	temp = *tokens;
 	token = NULL;
-	if (*user_input == '\"')
-		token = parse_double();
+	if (**temp == '\"')
+	{
+		printf("token is %s\n", *temp);
+		token = parse_double(*temp, (*list)->env);
+	}
 	else if (*user_input == '\'')
 		token = parse_single();
 	else
 		token = parse_no_q();
-	if ((*tokens + 1) && !is_special_str(*(*tokens + 1)))
-	{
-		next = return_string(list, user_input, &(*tokens + 1));
-		ptr = ft_strnstr(user_input, next, ft_strlen(next));
-		if (is_space(*(ptr + ft_strlen(*(*tokens + 1)))))
-		{
-			next = return_string(list, user_input, tokens);
-			(*tokens)++;
+	// if ((*tokens + 1) && !is_special_str(*(*tokens + 1)))
+	// {
+	// 	temp = *tokens + 1;
+	// 	next = return_string(list, user_input, &temp);
+	// 	ptr = ft_strnstr(user_input, next, ft_strlen(next));
+	// 	if (is_space(*(ptr + ft_strlen(*(*tokens + 1)))))
+	// 	{
+	// 		next = return_string(list, user_input, tokens);
+	// 		(*tokens)++;
 			
-			//increment tokens
-			//concatenate with token
-		}
-	}
-	//check if it has space in user input
-	//if not and if next token is string -> concatenate with next
+	// 		//increment tokens
+	// 		//concatenate with token
+	// 	}
+	// }
+	// //check if it has space in user input
+	// //if not and if next token is string -> concatenate with next
 
-	//check $ sign
+	// //check $ sign
 	return (token);
 }
 
 void	parse_string(t_list **list, char *user_input, char ***tokens)
 {
 	//TODO
-	// char	*str;
+	char	*str;
 
-	// str = return_string(list, user_input, tokens);
+	str = return_string(list, user_input, tokens);
 	// if (str)
 	// 	argv_add((*list)->argv, str); //TODO
+	printf("string is %s\n", str);
 }
 
 t_list	*parse(char *user_input, char **tokens, char **env_copy)
