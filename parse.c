@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 18:57:12 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/23 16:51:25 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:40:02 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	add_next_inf(t_list **list, char *file, char *flag)
 	//init inf
 	//set value and flag
 	//add last list->inf
-	printf("from func file = %s,flag = %s\n", file, flag);
 	inf_flag = 'c';
 	if (!ft_strcmp(flag, "<<"))
 		inf_flag = 'h';
@@ -69,7 +68,6 @@ void	add_next_outf(t_list **list, char *file, char *flag)
 	//init outf
 	//set value and flag
 	//add last list->outf
-	printf("from func file = %s,flag = %s\n", file, flag);
 	out_flag = 'c';
 	if (!ft_strcmp(flag, ">>"))
 		out_flag = 'a';
@@ -79,8 +77,8 @@ void	add_next_outf(t_list **list, char *file, char *flag)
 
 void	parse_red(char **tokens, t_list **list)
 {
-	printf("entered parse_red");
-	printf(" check list %s\n", *(*list)->env);
+	//printf("entered parse_red");
+	//printf(" check list %s\n", *(*list)->env);
 	if (!ft_strcmp(*tokens, "<") || !ft_strcmp(*tokens, "<<"))
 	{
 		if (!is_special_str(*(tokens + 1)) && *tokens)
@@ -134,9 +132,26 @@ char	*parse_no_q()
 int	is_alphanum(char c)
 {
 	if (((c >= 48) && (c <= 57)) || ((c >=97 && c <= 122)) \
-		|| (c == 45) || ((c >= 65) && (c <= 90)))
+		|| (c == '_') || ((c >= 65) && (c <= 90)))
 		return (1);
 	return (0);
+}
+
+char	*find_env_var(char	*key, char **env)
+{
+	char	*env_var;
+
+	env_var = NULL;
+	if (env != NULL)
+	{
+		while (*env && env_var == NULL)
+		{
+			if (!ft_strncmp(*env, key, ft_strlen(key)))
+				env_var = *env + ft_strlen(key) + 1;
+			env++;
+		}
+	}
+	return(env_var);
 }
 
 char	*parse_double(char *token, char **env)
@@ -144,12 +159,12 @@ char	*parse_double(char *token, char **env)
 	int		i;
 	int		start;
 	char	*parsed;
-	char	*env_char;
+	char	*env_key;
 	int		len;
 	char	*env_var;
 
 	start = -1;
-	env_char = NULL;
+	env_key = NULL;
 	env_var = NULL;
 	if (ft_strchrin(token, '$') != -1)
 	{
@@ -165,9 +180,13 @@ char	*parse_double(char *token, char **env)
 		if (i - start > 1)
 		{
 			printf("entered parse_double() if() if()\n");
-			env_char = ft_substr(token, start, i - start);
-			printf("env_char is %s\n", env_char);
+			env_key = ft_substr(token, start, i - start);
+			printf("env_char is %s\n", env_key);
 		}
+		env_var = find_env_var(env_key, env);
+		printf("env_var is %s\n", env_var);
+		if (env_var == NULL)
+			return ("\0");
 
 	}
 	// if (env_char)
@@ -178,18 +197,6 @@ char	*parse_double(char *token, char **env)
 	// 		return (NULL);
 	// 	env_var = 
 	// }
-	len = ft_strlen(token - 2);
-	if (env_char)
-		len += ft_strlen(env_char);
-	parsed = (char *)malloc((len + 1) * sizeof(char));
-	if (!parsed)
-		return (NULL);
-	ft_strlcpy(parsed, token + 1, ft_strlen(token) - 1);
-	if (env_char)
-	{
-		ft_strlcpy(token + ft_strlen(token) - 2, env_char, ft_strlen(env_char) + 1);
-		free(env_char);
-	}
 	
 	//remove quotes
 	//-assign new memory
@@ -223,52 +230,117 @@ int	is_next_string_space(char *token, char *user_input)
 	return (0);
 }
 
-char	*return_string(t_list **list, char *user_input, char ***tokens)
-{
-	char	*token;
-	char	**temp;
+// char	*return_string(t_list **list, char *user_input, char ***tokens)
+// {
+// 	char	*token;
+// 	char	**temp;
 
-	temp = *tokens;
-	token = NULL;
-	if (**temp == '\"')
-	{
-		printf("token is %s\n", *temp);
-		token = parse_double(*temp, (*list)->env);
-	}
-	else if (*user_input == '\'')
-		token = parse_single();
-	else
-		token = parse_no_q();
-	// if ((*tokens + 1) && !is_special_str(*(*tokens + 1)))
-	// {
-	// 	temp = *tokens + 1;
-	// 	next = return_string(list, user_input, &temp);
-	// 	ptr = ft_strnstr(user_input, next, ft_strlen(next));
-	// 	if (is_space(*(ptr + ft_strlen(*(*tokens + 1)))))
-	// 	{
-	// 		next = return_string(list, user_input, tokens);
-	// 		(*tokens)++;
+// 	temp = *tokens;
+// 	token = NULL;
+// 	if (**temp == '\"')
+// 	{
+// 		printf("token is %s\n", *temp);
+// 		token = parse_double(*temp, (*list)->env);
+// 	}
+// 	else if (*user_input == '\'')
+// 		token = parse_single();
+// 	else
+// 		token = parse_no_q();
+// 	// if ((*tokens + 1) && !is_special_str(*(*tokens + 1)))
+// 	// {
+// 	// 	temp = *tokens + 1;
+// 	// 	next = return_string(list, user_input, &temp);
+// 	// 	ptr = ft_strnstr(user_input, next, ft_strlen(next));
+// 	// 	if (is_space(*(ptr + ft_strlen(*(*tokens + 1)))))
+// 	// 	{
+// 	// 		next = return_string(list, user_input, tokens);
+// 	// 		(*tokens)++;
 			
-	// 		//increment tokens
-	// 		//concatenate with token
-	// 	}
-	// }
-	// //check if it has space in user input
-	// //if not and if next token is string -> concatenate with next
+// 	// 		//increment tokens
+// 	// 		//concatenate with token
+// 	// 	}
+// 	// }
+// 	// //check if it has space in user input
+// 	// //if not and if next token is string -> concatenate with next
 
-	// //check $ sign
-	return (token);
+// 	// //check $ sign
+// 	return (token);
+// }
+
+// void	temp_set_cmd(t_list **list, char *user_input)
+// {
+// 	char	**res;
+
+// 	res = ft_split_space(user_input, ' ');
+// 	(*list)->cmd = *res;
+// 	(*list)->argv = res + 1;
+// }
+
+void	free_double_array(char **arr)
+{
+	int		i;
+
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
 }
 
-void	parse_string(t_list **list, char *user_input, char ***tokens)
+void	add_argv(t_list **list, char *token)
+{
+	int		len;
+	char	**copy_argv;
+	char	**new_argv;
+
+	len = 0;
+	copy_argv = (*list)->argv;
+	if ((*list)->argv)
+	{
+		while(*copy_argv)
+		{
+			len++;
+			copy_argv++;
+		}
+		new_argv = (char **)malloc((len + 2) * sizeof(char *));
+		copy_argv = (*list)->argv;
+		while (*copy_argv)
+		{
+			*new_argv = ft_strdup(*copy_argv);
+			new_argv++;
+			copy_argv++;
+		}
+		*new_argv++ = token;
+		*new_argv = NULL;
+		copy_argv = (*list)->argv;
+		free_double_array(copy_argv);
+		(*list)->argv = new_argv - len - 1;
+	}
+	else 
+	{
+		new_argv = (char **)malloc(2 * sizeof(char *));
+		*new_argv = token;
+		*(new_argv + 1)= NULL;
+		(*list)->argv = new_argv;
+	}
+}
+
+void	parse_string(t_list **list, char *user_input, char **tokens)
 {
 	//TODO
-	char	*str;
+	//char	*str;
+	if ((*list)->cmd)
+	{
+		add_argv(list, *tokens);
+	}
+	else 
+		(*list)->cmd = *tokens;
 
-	str = return_string(list, user_input, tokens);
 	// if (str)
 	// 	argv_add((*list)->argv, str); //TODO
-	printf("string is %s\n", str);
+	//printf("check args %s\n", *(*list)->argv);
+
 }
 
 t_list	*parse(char *user_input, char **tokens, char **env_copy)
@@ -276,28 +348,30 @@ t_list	*parse(char *user_input, char **tokens, char **env_copy)
 	t_list	*list;
 	t_list	*current;
 
-	printf("entered parse()\n");
+	//printf("entered parse()\n");
 	list = init_list(env_copy);
 	current = list;
+	//parse_string(&list, user_input, &tokens);
 	while (*tokens)
 	{
-		printf("entered while\n");
+		//printf("entered while\n");
 		if (!ft_strcmp(*tokens, ">") || !ft_strcmp(*tokens, "<") || \
 			!ft_strcmp(*tokens, ">>") || !ft_strcmp(*tokens, "<<"))
 			{
-				printf("passed if\n");
+			//	printf("passed if\n");
 				parse_red(tokens, &current);
+				tokens++;
 			}
-		if (!ft_strcmp(*tokens, "|"))
-			current = parse_pipe(&current, tokens + 1, env_copy);
-		//make all function return value for outputting errors
-		if (!ft_strcmp(*tokens, "$"))
-			parse_exp(&current, tokens, user_input, env_copy);
+		// if (!ft_strcmp(*tokens, "|"))
+		// 	current = parse_pipe(&current, tokens + 1, env_copy);
+		// //make all function return value for outputting errors
+		// if (!ft_strcmp(*tokens, "$"))
+		// 	parse_exp(&current, tokens, user_input, env_copy);
 		else 
-			parse_string(&current, user_input, &tokens);
+			parse_string(&current, user_input, tokens);
 		tokens++;
 	}
-	printf("finished parse()\n");
+	//printf("finished parse()\n");
 	return (list);
 }
 

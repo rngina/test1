@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 18:30:52 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/22 12:35:51 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:32:34 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,25 @@ void	print_outf(t_list *list)
 		outf = outf->next;
 	}
 	printf("\n");
+}
+
+void	output_list(t_list *list)
+{
+	char	**argv;
+
+	printf("cmd = %s\n", list->cmd);
+	printf("argv = ");
+	argv = list->argv;
+	while (*argv)
+	{
+		printf("%s ", *argv);
+		argv++;
+	}
+	printf("\n");
+	printf("inf are ");
+	print_inf(list);
+	printf("outf are ");
+	print_outf(list);
 }
 
 char	**duplicate_env(char **env)
@@ -75,9 +94,9 @@ t_list	*input(char *user_input, char **env_copy)
 	// 		tokens++;
 	// 	}
 	// }
-	printf("im in input\n");
+	//printf("im in input\n");
 	list = parse(user_input, tokens, env_copy);
-	printf("in input after parse() call\n");
+	//printf("in input after parse() call\n");
 	return(list);
 }
 
@@ -95,10 +114,7 @@ int	main(int argc, char **argv, char **env)
 		user_input = readline("minishell:~$ ");
 		add_history(user_input);
 		list = input(user_input, env_copy);
-		printf("back to while loop\n");
-		print_inf(list);
-		print_outf(list);
-		printf("after expected print\n");
+		output_list(list);
 		//exit_status = exec(&env_copy);
 	}
 	free(user_input);
