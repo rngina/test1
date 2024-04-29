@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 18:30:52 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/29 15:32:34 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/29 17:13:53 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,33 @@ void	print_outf(t_list *list)
 void	output_list(t_list *list)
 {
 	char	**argv;
+	int		i;
+	t_list	*copy;
 
-	printf("cmd = %s\n", list->cmd);
-	printf("argv = ");
-	argv = list->argv;
-	while (*argv)
+	i = 0;
+	copy = list;
+	while (copy)
 	{
-		printf("%s ", *argv);
-		argv++;
+		printf("___________________________\n");
+		printf("LIST NUMBER %d\n", i);
+		printf("cmd = %s\n", copy->cmd);
+		printf("argv = ");
+		argv = copy->argv;
+		while (*argv)
+		{
+			printf("%s ", *argv);
+			argv++;
+		}
+		printf("\n");
+		printf("inf are ");
+		print_inf(copy);
+		printf("outf are ");
+		print_outf(copy);
+		copy = copy->next;
+		i++;
+		printf("___________________________\n");
 	}
-	printf("\n");
-	printf("inf are ");
-	print_inf(list);
-	printf("outf are ");
-	print_outf(list);
+
 }
 
 char	**duplicate_env(char **env)
