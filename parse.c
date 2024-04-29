@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 18:57:12 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/29 17:31:38 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:00:19 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,34 +95,35 @@ void	parse_red(char **tokens, t_list **list)
 	}
 }
 
-// t_list	*parse_pipe(t_list **list, char **tokens, char **env)
-// {
-// 	t_list	*next;
-// 	//TODO
-// 	//check if list has a command 
-// 	//if not 
-// 	//pipe_error() syntax error near unexpected token `|'
-// 	//check if tokens has something after (not pipe)
-// 	//if not
-// 	//pipe_error() syntax error near unexpected token `|'
-// 	//create new t_list instance
-// 	//return list instance
+t_list	*parse_pipe(t_list **list, char **tokens, char **env)
+{
+	t_list	*next;
+	//TODO
+	//check if list has a command 
+	//if not 
+	//pipe_error() syntax error near unexpected token `|'
+	//check if tokens has something after (not pipe)
+	//if not
+	//pipe_error() syntax error near unexpected token `|'
+	//create new t_list instance
+	//return list instance
 
-// 	if ((*list)->cmd)
-// 	{
-// 		next = init_list(env);
-// 		add_last_list(list, next);
-// 	}
-// 	else if (*tokens == NULL)
-// 	{
-// 		//ouput error
-// 	}
-// 	else
-// 	{
-// 		//ouput error 
-// 	}
-// 	return (*list);
-// }
+	if ((*list)->cmd)
+	{
+		next = init_list(env);
+		add_last_list(list, next);
+		return(ft_lstlast(*list));
+	}
+	else if (*tokens == NULL)
+	{
+		//ouput error
+	}
+	else
+	{
+		//ouput error 
+	}
+	return (*list);
+}
 
 void	parse_exp(t_list **list, char **tokens, \
 				char *user_input, char **env)
@@ -377,8 +378,8 @@ t_list	*parse(char *user_input, char **tokens, char **env_copy)
 				parse_red(tokens, &current);
 				tokens++;
 			}
-		// if (!ft_strcmp(*tokens, "|"))
-		// 	current = parse_pipe(&current, tokens + 1, env_copy);
+		else if (!ft_strcmp(*tokens, "|"))
+			current = parse_pipe(&current, tokens + 1, env_copy);
 		// //make all function return value for outputting errors
 		// if (!ft_strcmp(*tokens, "$"))
 		// 	parse_exp(&current, tokens, user_input, env_copy);
