@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:54:27 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/26 13:11:50 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:26:22 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ char	**split_process(char *s, char **res)
 	int		start;
 
 	i = 0;
-	start = 0;
+	start = -1;
 	while (i <= ft_strlen(s) && s[i] != '\0')
 	{
 		while (is_space(s[i]))
