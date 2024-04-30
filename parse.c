@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 18:57:12 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/29 18:00:19 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/30 16:40:33 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -359,6 +359,24 @@ void	parse_string(t_list **list, char *user_input, char **tokens)
 
 }
 
+void	set_id_list(t_list **list)
+{
+	t_list	*temp;
+	int		i;
+
+	if (*list != NULL)
+	{
+		temp = *list;
+		i = 1;
+		while (temp)
+		{
+			temp->list_id = i;
+			temp = temp->next;
+			i++;
+		}
+	}
+}
+
 t_list	*parse(char *user_input, char **tokens, char **env_copy)
 {
 	t_list	*list;
@@ -387,6 +405,7 @@ t_list	*parse(char *user_input, char **tokens, char **env_copy)
 			parse_string(&current, user_input, tokens);
 		tokens++;
 	}
+	set_id_list(&list);
 	//printf("finished parse()\n");
 	return (list);
 }

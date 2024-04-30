@@ -7,6 +7,8 @@ int	ft_strlen(char *s)
 	int	len;
 
 	len = 0;
+	if (s == NULL)
+		return (0);
 	while (*s)
 	{
 		s++;
@@ -266,42 +268,93 @@ char	*remove_quotes(char *str)
 	return (ret);
 }
 
-// int	get_env_value(char **token, char **env)
-// {
-	
-// }
-
-// int	replace_env(char **tokens, char **env)
-// {
-// 	int	res;
-
-// 	res = 0;
-// 	while (*tokens)
-// 	{
-// 		if (**tokens == '$')
-// 			res += token_env(tokens, env);
-// 		else 
-// 			res += ft_strlen(*tokens);
-// 		tokens++;
-// 	}
-// 	return (res);
-// }
-
-int	main()
+int	get_env_value(char **token, char **env)
 {
-	char	*str = {"\"$     $OLDPWD  lalalalal $OLDPWD$OL     $? $OLDPWD    a$\""};
+	char	*value;
+	int		len;
+	char	*word;
+	char	*env_word;
+
+	value = NULL;
+	len = ft_strlen(*token) - 1;
+	word = *token;
+	if (env != NULL)
+	{
+		printf("1\n");
+		while (*env && value == NULL)
+		{
+			env_word = *env;
+			if (!ft_strncmp(*env, word + 1, len) && *(env_word + len) == '=')
+				value = *env + len + 1;
+			else if (!ft_strncmp("$?", word, len))
+				value = "exit code";
+			env++;
+		}
+		printf("2\n");
+	}
+	if (value)
+	{
+		printf("3\n");
+		free(*token);
+		*token = (char *)malloc(sizeof(char) * (ft_strlen(value) + 1));
+		ft_strlcpy(*token, value, ft_strlen(value) + 1);
+		printf("existing token is %s\n", *token);
+	}
+	else 
+	{
+		printf("4\n");
+		free(*token);
+		*token = (char *)malloc(1 * sizeof(char));
+		ft_strlcpy(*token, "", 1);
+		printf("not existing token is |%s|\n", *token);
+	}
+	printf("5\n");
+	return (ft_strlen(value) + 1);
+}
+
+int	replace_env(char **tokens, char **env)
+{
+	int		res;
+	char	**tokens_copy;
+	char	*token_word;
+
+	res = 0;
+	tokens_copy = tokens;
+	while (*tokens_copy)
+	{
+		if (**tokens_copy == '$')
+		{
+			token_word = *tokens_copy;
+			res += get_env_value(&token_word, env);
+		}
+		else 
+			res += ft_strlen(*tokens_copy);
+		tokens_copy++;
+	}
+	return (res);
+}
+
+int	main(int argc, char **argv, char **env)
+{
+	char	*str = {"\"$    $OLDPWD  lalalalal $OLDPWD$OL     $? $OLDPWD    a$\""};
+	//char	*str = {"\"hello   $OLDPWD   $USE   bye bye\""};
 	char	*token = {"$OLDPWD"};
 	char	**res;
+	int		num;
 
 	printf("str = %s\n", str);
 	printf("num of words %d\n", ft_count_words_str(str));
 	str = remove_quotes(str);
 	printf("str after removed quotes |%s|\n", str);
 	res = ft_split_str(str);
+	num = replace_env(res, env);
 	printf("res is %s\n", *res);
 	while (*res)
 	{
-		printf("|%s|\n", *res);
+		if (*res)
+			printf("|%s|\n", *res);
+		else 
+			printf("\n");
 		res++;
 	}
 }

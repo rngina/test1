@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 18:30:52 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/04/29 17:13:53 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/04/30 16:39:35 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,15 @@ void	output_list(t_list *list)
 	while (copy)
 	{
 		printf("___________________________\n");
-		printf("LIST NUMBER %d\n", i);
+		printf("list id is %d\n", copy->list_id);
 		printf("cmd = %s\n", copy->cmd);
-		printf("argv = ");
-		argv = copy->argv;
-		while (*argv)
-		{
-			printf("%s ", *argv);
-			argv++;
-		}
+		// printf("argv = ");
+		// argv = copy->argv;
+		// while (*argv)
+		// {
+		// 	printf("%s ", *argv);
+		// 	argv++;
+		// }
 		printf("\n");
 		printf("inf are ");
 		print_inf(copy);
